@@ -811,12 +811,12 @@ end
 
 -- ───────── หมวด 1 : Auto Farm ─────────
 local FarmSection = FarmingTab:PageSection({
-    Title = "🌾 Auto Farm",
+    Title = "🗡️ Auto Farm Boss",
     Subtitle = "Fly to the boss and stay next to it."
 })
 local FarmForm = FarmSection:Form()
 
-AddFarmToggle(FarmForm, "Auto Farm Boss", "Fly to the boss in this map and keep facing it.", "AutoFarm")
+AddFarmToggle(FarmForm, "Enable Farm", "Fly to the boss in this map and keep facing it.", "AutoFarm")
 
 local PositionRow = FarmForm:Row()
 PositionRow:Left():TitleStack({

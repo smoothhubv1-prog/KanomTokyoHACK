@@ -19,7 +19,7 @@ local Maps = {
         Name = "Kanom Tokyo | โลกปกติ",
         Scripts = {
             -- ไฟล์นี้รวม Auto Farm Level ไว้ข้างในแล้ว ไม่ต้องโหลดแยก
-            { Name = "Ui โลกปกติ", Url = "ใส่ลิงก์ raw ของ Ui โลกปกติ (ไฟล์ที่รวม Auto Farm แล้ว)" },
+            { Name = "Ui โลกปกติ", Url = "https://raw.githubusercontent.com/smoothhubv1-prog/KanomTokyoHACK/refs/heads/main/Ui.lua" },
         },
     },
 
@@ -27,7 +27,7 @@ local Maps = {
     [123949707464677] = {
         Name = "Kanom Tokyo | Boss Map",
         Scripts = {
-            { Name = "Ui Boss Map", Url = "ใส่ลิงก์ raw ของ Ui Boss Map" },
+            { Name = "Ui Boss Map", Url = "https://raw.githubusercontent.com/smoothhubv1-prog/KanomTokyoHACK/refs/heads/main/UiMap%20Boss.lua" },
         },
     },
 }

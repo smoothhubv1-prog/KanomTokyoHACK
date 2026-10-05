@@ -589,7 +589,7 @@ local App = Cascade.New({
 
 local Window = App:Window({
     Title = "Smooth Hub",
-    Subtitle = "Game : Kanom Tokyo",
+    Subtitle = "Game : Kanom Tokyo | Version 0.5",
     Resizable = true,
     Draggable = true,
     UIBlur = false

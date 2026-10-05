@@ -16,18 +16,24 @@ local LocalPlayer = game:GetService("Players").LocalPlayer
 local Maps = {
     -- โลกปกติ
     [71793674075007] = {
-        Name = "Kanom Tokyo | โลกปกติ",
+        Name = "Kanom Tokyo",
         Scripts = {
-            -- ไฟล์นี้รวม Auto Farm Level ไว้ข้างในแล้ว ไม่ต้องโหลดแยก
             { Name = "Ui โลกปกติ", Url = "https://raw.githubusercontent.com/smoothhubv1-prog/KanomTokyoHACK/refs/heads/main/Ui.lua" },
         },
     },
 
     -- Boss Map
     [123949707464677] = {
-        Name = "Kanom Tokyo | Boss Map",
+        Name = "Kanom Tokyo",
         Scripts = {
             { Name = "Ui Boss Map", Url = "https://raw.githubusercontent.com/smoothhubv1-prog/KanomTokyoHACK/refs/heads/main/UiMap%20Boss.lua" },
+        },
+    },
+	    -- Raid Map
+    [12337212938933] = {
+        Name = "Kanom Tokyo",
+        Scripts = {   
+            { Name = "Ui Raid Map", Url = "https://raw.githubusercontent.com/smoothhubv1-prog/KanomTokyoHACK/refs/heads/main/UiMapRaid.lua" },
         },
     },
 }

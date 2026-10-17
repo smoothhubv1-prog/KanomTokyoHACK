@@ -1627,6 +1627,89 @@ SettingsStore.StartAutoSave("BossMap", function()
 end)
 
 ---------------------------------------------------------
+-- 📱 UI Scale (ย่อ UI อัตโนมัติบนมือถือ + ปรับเองได้ในแท็บ Windows)
+-- ใช้ UIScale ใส่ที่ ScreenGui ของ Smooth Hub / จำค่าที่ตั้งไว้ในไฟล์ Scale (แยกตามไอดี)
+---------------------------------------------------------
+do
+    local UIS = game:GetService("UserInputService")
+    local isMobile = UIS.TouchEnabled and not UIS.KeyboardEnabled
+
+    local uiScale = Instance.new("UIScale")
+    uiScale.Scale = 1
+
+    -- ค่าที่เคยตั้งไว้ (ไม่มี = มือถือย่ออัตโนมัติ / คอมใช้ 100%)
+    local savedScale = tonumber(SettingsStore.Load("Scale").Scale)
+
+    local function AutoScale()
+        if not isMobile then return 1 end
+        local cam = workspace.CurrentCamera
+        local vp = cam and cam.ViewportSize or Vector2.new(1000, 620)
+        -- 1000x620 = ขนาดหน้าต่างโดยประมาณ ถ้ายังใหญ่ไปให้ลดเลขนี้ / เล็กไปให้เพิ่มเลขนี้
+        return math.clamp(math.min(vp.X / 1000, vp.Y / 620), 0.45, 1)
+    end
+
+    local startScale = math.clamp(savedScale or AutoScale(), 0.3, 1.5)
+    uiScale.Scale = startScale
+
+    -- หา ScreenGui ของ Smooth Hub แล้วใส่ UIScale
+    local function FindGui()
+        local roots = {}
+        pcall(function() if gethui then table.insert(roots, gethui()) end end)
+        pcall(function() table.insert(roots, game:GetService("CoreGui")) end)
+        pcall(function() table.insert(roots, game:GetService("Players").LocalPlayer:FindFirstChildOfClass("PlayerGui")) end)
+        for _, root in ipairs(roots) do
+            for _, g in ipairs(root:GetChildren()) do
+                if g:IsA("ScreenGui") then
+                    local ok, found = pcall(function()
+                        for _, d in ipairs(g:GetDescendants()) do
+                            if d:IsA("TextLabel") and string.find(d.Text, "Smooth Hub", 1, true) then
+                                return true
+                            end
+                        end
+                        return false
+                    end)
+                    if ok and found then return g end
+                end
+            end
+        end
+        return nil
+    end
+
+    task.spawn(function()
+        for _ = 1, 40 do
+            local g = FindGui()
+            if g then
+                uiScale.Parent = g
+                return
+            end
+            task.wait(0.25)
+        end
+    end)
+
+    -- ตัวปรับขนาดในแท็บ Windows (อยู่ต่อจาก Shadows Effect)
+    local ScaleRow = BlurForm:Row()
+    ScaleRow:Left():TitleStack({
+        Title = "UI Scale",
+        Subtitle = "Shrink or enlarge the window (30 - 150%). Useful on mobile."
+    })
+    ScaleRow:Right():Stepper({
+        Minimum = 30,
+        Maximum = 150,
+        Step = 5,
+        Fielded = true,
+        Value = math.floor(startScale * 100 + 0.5),
+        ValueChanged = function(self, value)
+            uiScale.Scale = math.clamp((tonumber(value) or 100) / 100, 0.3, 1.5)
+        end
+    })
+
+    -- บันทึกขนาดที่ตั้งไว้ (ไฟล์ Scale แยกต่างหาก)
+    SettingsStore.StartAutoSave("Scale", function()
+        return { Scale = uiScale.Scale }
+    end, 1.5)
+end
+
+---------------------------------------------------------
 -- ระบบเบื้องหลังของหมวด Settings
 ---------------------------------------------------------
 -- Infinite Jump
